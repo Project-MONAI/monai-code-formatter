@@ -1,12 +1,35 @@
-name: 'Container Action Template'
-description: 'Get started with Container actions'
-author: 'GitHub'
-inputs: 
-  myInput:
-    description: 'Input to use'
-    default: 'world'
+name: 'Format Python Code'
+description: 'Set up a Python file formatter, reformat the code, and commit the changes.'
+author: 'MONAI Consortium'
+inputs:
+  format_args:
+    description: 'Options given to the formatter.'
+    required: false
+    default: '.'
+  email:
+    description: 'email used for git commit'
+    required: false
+    default: 'test@example.org'
+  username:
+    description: 'username used for git commit'
+    required: false
+    default: 'Formatter bot'
+  message:
+    description: 'message for the formatting commit'
+    required: false
+    default: 'Auto python code formatting'
+  token:
+    description: >
+      Used to fetch the code and write commits of formatting changes.
+      The token should have write permissions.
+    required: false
+    default: ${{ github.token }}
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.myInput }}
+    - ${{ inputs.format_args }}
+    - ${{ inputs.email }}
+    - ${{ inputs.username }}
+    - ${{ inputs.message }}
+    - ${{ inputs.token }}

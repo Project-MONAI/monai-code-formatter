@@ -1,5 +1,19 @@
-# Container Action Template
+# Python code formatter with Black
+This action formats the repository's python code with Black.
+The formatting changes are submitted back to the source branch (PR that triggered the action).
 
-To get started, click the `Use this template` button on this repository [which will create a new repository based on this template](https://github.blog/2019-06-06-generate-new-repositories-with-repository-templates/).
-
-For info on how to build your first Container action, see the [toolkit docs folder](https://github.com/actions/toolkit/blob/master/docs/container-action.md).
+## Usage
+```yaml
+- uses: project-monai/monai-code-formatter@master
+  with:
+    # options to the auto formatter (Black)
+    format_args:
+    # email address used to write git commit
+    email:
+    # username used to write git commit
+    username:
+    # commit message
+    message:
+    # access token used to read and write the source branch
+    token:
+```

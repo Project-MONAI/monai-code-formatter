@@ -1,6 +1,9 @@
-FROM alpine:3.10
+FROM python:3
 
-COPY LICENSE README.md /
+RUN apt-get update && apt-get install -y git jq
+RUN pip install black
+
+# COPY LICENSE README.md /
 
 COPY entrypoint.sh /entrypoint.sh
 
