@@ -32,7 +32,7 @@ jobs:
       - name: Commit to the PR branch
         if: steps.black.outputs.format == 'true'
         run: |
-          black --line-length 120 .
+          black .
           git config --global user.name 'monai-bot'
           git config --global user.email 'monai.miccai2019@gmail.com'
           git commit -am "[MONAI] python code formatting"
