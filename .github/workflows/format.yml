@@ -15,24 +15,30 @@ jobs:
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
       # Setup Python environment
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
-      # Install black
-      - name: Install black
-        run: pip install black
+      # Install black and autopep8
+      - name: Install black autopep8
+        run: pip install black autopep8
 
-      # Execute black in check mode
-      - name: Black
+      # Execute autopep8 and black
+      - name: Autopep8 and Black
         id: black
-        run: echo ::set-output name=format::$(black --check --quiet . || echo "true")
+        run: |
+          autopep8 --recursive --in-place --aggressive --aggressive .
+          black .
+          changes=
+          if [ -n "$(git status --porcelain)" ]; then
+            changes="true"
+          fi
+          echo ::set-output name=format::$changes
 
-      # Execute black and commit the change to the PR branch
+      # Commit the change to the PR branch
       - name: Commit to the PR branch
         if: steps.black.outputs.format == 'true'
         run: |
-          black .
           git config --global user.name 'monai-bot'
           git config --global user.email 'monai.miccai2019@gmail.com'
           git commit -am "[MONAI] python code formatting"
