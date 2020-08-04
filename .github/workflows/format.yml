@@ -19,16 +19,35 @@ jobs:
         with:
           python-version: '3.x'
 
-      # Install black and autopep8
-      - name: Install black autopep8
-        run: pip install black autopep8
+      # Set cache id
+      - name: Cache weekly timestamp
+        id: pip-cache
+        run: echo "::set-output name=datew::$(date '+%Y-%V')"
+        shell: bash
+
+      # Set cache (linux only)
+      - name: Cache for pip
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ steps.pip-cache.outputs.datew }}
+
+      - name: Install isort black autopep8
+        run: pip install isort black autopep8
 
       # Execute autopep8 and black
-      - name: Autopep8 and Black
+      - name: Autopep8 isort Black
         id: black
         run: |
+          autopep8 --version
+          isort --version
+          black --version
+
           autopep8 --recursive --in-place --aggressive --aggressive .
+          isort .
           black .
+
           changes=
           if [ -n "$(git status --porcelain)" ]; then
             changes="true"
