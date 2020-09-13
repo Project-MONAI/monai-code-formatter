@@ -34,7 +34,7 @@ jobs:
           key: ${{ runner.os }}-pip-${{ steps.pip-cache.outputs.datew }}
 
       - name: Install isort black autopep8
-        run: pip install isort black autopep8
+        run: pip install isort black autopep8 torch numpy
 
       # Execute autopep8 and black
       - name: Autopep8 isort Black
@@ -48,11 +48,14 @@ jobs:
           isort .
           black .
 
+          ./runtests.sh --clangformat
+
           changes=
           if [ -n "$(git status --porcelain)" ]; then
             changes="true"
           fi
           echo ::set-output name=format::$changes
+        shell: bash
 
       # Commit the change to the PR branch
       - name: Commit to the PR branch
