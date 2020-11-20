@@ -34,15 +34,20 @@ jobs:
           key: ${{ runner.os }}-pip-${{ steps.pip-cache.outputs.datew }}
 
       - name: Install isort black autopep8
-        run: pip install isort black autopep8 torch numpy
+        run: |
+          sudo apt-get -y install dos2unix
+          pip install isort black autopep8 torch numpy
 
       # Execute autopep8 and black
       - name: Autopep8 isort Black
         id: black
         run: |
+          dos2unix --version
           autopep8 --version
           isort --version
           black --version
+          
+          find . -type f -print0 | xargs -0 -n 1 -P 2 dos2unix  # remove return
 
           autopep8 --recursive --in-place --aggressive --aggressive .
           isort .
