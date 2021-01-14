@@ -53,8 +53,8 @@ jobs:
           isort .
           black .
 
-          sudo mkdir -p /usr/local/fbcode/platform009/lib/
-          sudo ln -s /lib64/ld-linux-x86-64.so.2 /usr/local/fbcode/platform009/lib/ld.so
+          # sudo mkdir -p /usr/local/fbcode/platform009/lib/
+          # sudo ln -s /lib64/ld-linux-x86-64.so.2 /usr/local/fbcode/platform009/lib/ld.so
           ./runtests.sh --clangformat
 
           changes=
