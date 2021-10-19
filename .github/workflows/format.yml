@@ -46,12 +46,12 @@ jobs:
           autopep8 --version
           isort --version
           black --version
-          
+
           find . -type f -print0 | xargs -0 -n 1 -P 2 dos2unix  # remove return
 
           autopep8 --recursive --in-place --aggressive --aggressive .
           isort .
-          black .
+          black --skip-magic-trailing-comma .
 
           # sudo mkdir -p /usr/local/fbcode/platform009/lib/
           # sudo ln -s /lib64/ld-linux-x86-64.so.2 /usr/local/fbcode/platform009/lib/ld.so
