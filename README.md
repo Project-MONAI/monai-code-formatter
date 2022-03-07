@@ -28,3 +28,4 @@ MONAI currently adopts this option as it supports both internal and external pul
 given that the contributors use the default PR setting -- 'Allow edits and access to secrets by maintainers'.
 
 repo stats: https://monai.io/monai-code-formatter/Project-MONAI/MONAI/latest-report/report.html
+tutorial stats: https://monai.io/monai-code-formatter/Project-MONAI/tutorials/latest-report/report.html
