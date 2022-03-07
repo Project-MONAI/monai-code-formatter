@@ -10,6 +10,12 @@ jobs:
   j1:
     name: repostats-for-monai
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # The repositories to generate reports for.
+        statsRepo: ['Project-MONAI/MONAI', 'Project-MONAI/tutorials']
+      fail-fast: false
+      max-parallel: 1
     steps:
       - name: run-ghrs
         uses: jgehrcke/github-repo-stats@v1.3.0
@@ -18,7 +24,7 @@ jobs:
           # stats for and to generate the report for).
           # Remove the parameter when the stats repository
           # and the data repository are the same.
-          repository: Project-MONAI/MONAI
+          repository: ${{ matrix.statsRepo }}
           # Set a GitHub API token that can read the stats
           # repository, and that can push to the data
           # repository (which this workflow file lives in),
