@@ -1,4 +1,4 @@
-# Python code formatter with Black
+# Python code formatter
 This repo implements two options to format python code with Black using GitHub action.
 The formatting changes are submitted back to the source branch (PR that triggered the action).
 
@@ -26,3 +26,5 @@ The workflow file is located at [`.github/workflows/format.yml`](https://github.
 
 MONAI currently adopts this option as it supports both internal and external pull requests,
 given that the contributors use the default PR setting -- 'Allow edits and access to secrets by maintainers'.
+
+repo stats: https://monai.io/monai-code-formatter/Project-MONAI/MONAI/latest-report/report.html
