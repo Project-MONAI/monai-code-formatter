@@ -53,9 +53,10 @@ jobs:
           isort .
           black --skip-magic-trailing-comma .
 
-          # sudo mkdir -p /usr/local/fbcode/platform009/lib/
-          # sudo ln -s /lib64/ld-linux-x86-64.so.2 /usr/local/fbcode/platform009/lib/ld.so
-          ./runtests.sh --clangformat
+          script_file=runtests.sh
+          if [[ -f $script_file ]]; then
+            ./runtests.sh --clangformat
+          fi
 
           changes=
           if [ -n "$(git status --porcelain)" ]; then
