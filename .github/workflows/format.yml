@@ -71,7 +71,7 @@ jobs:
         run: |
           git config --global user.name 'monai-bot'
           git config --global user.email 'monai.miccai2019@gmail.com'
-          git commit -sam "[MONAI] python code formatting"
+          git commit -sam "[MONAI] code formatting"
           git push
 
       - name: Add reaction
