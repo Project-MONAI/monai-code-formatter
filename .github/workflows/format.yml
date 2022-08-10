@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout the pull request branch
-      - uses: actions/checkout@v2.1.0
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.PR_MAINTAIN }}
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
       # Setup Python environment
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
         with:
           python-version: 3.8
 
@@ -27,7 +27,7 @@ jobs:
 
       # Set cache (linux only)
       - name: Cache for pip
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache
         with:
           path: ~/.cache/pip
