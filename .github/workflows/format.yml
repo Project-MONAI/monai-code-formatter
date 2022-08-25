@@ -53,9 +53,10 @@ jobs:
           isort .
           black --skip-magic-trailing-comma .
           repo_name=${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          repo_name=${repo_name: -5}
           echo $repo_name
           script_file=runtests.sh
-          if [[ -f $script_file && "$repo_name" == "Project-MONAI/MONAI" ]]; then
+          if [[ -f $script_file && "$repo_name" == "MONAI" ]]; then
             ./runtests.sh --clangformat
           fi
 
