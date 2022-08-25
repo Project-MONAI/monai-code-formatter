@@ -52,9 +52,10 @@ jobs:
           autopep8 --recursive --in-place --aggressive --aggressive .
           isort .
           black --skip-magic-trailing-comma .
-
+          repo_name=${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          echo $repo_name
           script_file=runtests.sh
-          if [[ -f $script_file ]]; then
+          if [[ -f $script_file && "$repo_name" == "Project-MONAI/MONAI" ]]; then
             ./runtests.sh --clangformat
           fi
 
