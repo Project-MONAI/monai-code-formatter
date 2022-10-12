@@ -1,0 +1,94 @@
+name: update codebase
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+
+jobs:
+  dev_updates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PR_MAINTAIN }}
+          repository: Project-MONAI/MONAI
+          ref: dev
+          path: src_dir
+
+      - uses: actions/checkout@v3
+        with:
+          path: scripts
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+
+      - name: Cache weekly timestamp
+        id: pip-cache
+        run: echo "::set-output name=datew::$(date '+%Y-%V')"
+        shell: bash
+
+      - name: Cache for pip
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ steps.pip-cache.outputs.datew }}
+
+      - name: Install tools
+        run: |
+          sudo apt-get -y install dos2unix
+          python -m pip install --upgrade pip wheel
+          python -m pip install isort black autopep8 torch numpy
+          python -m pip install -r src_dir/requirements-dev.txt
+          python scripts/remove_type_ignore.py src_dir/setup.cfg src_dir/
+
+      - name: Make changes
+        id: black
+        run: |
+          dos2unix --version
+          autopep8 --version
+          isort --version
+          black --version
+
+          cd src_dir/
+          find . -type f -not -path "./.git/*" -print0 | xargs -0 -n 1 -P 2 dos2unix  # remove return
+
+          autopep8 --recursive --in-place --aggressive --aggressive .
+          isort .
+          black --skip-magic-trailing-comma .
+
+          script_file=runtests.sh
+          if [[ -f $script_file ]]; then
+            ./runtests.sh --clangformat
+          fi
+
+          changes=
+          if [ -n "$(git status --porcelain)" ]; then
+            changes="true"
+          fi
+          echo ::set-output name=format::$changes
+        shell: bash
+
+      - name: git commit
+        if: steps.black.outputs.format == 'true'
+        run: |
+          cd src_dir/
+          git config --global user.name 'monai-bot'
+          git config --global user.email 'monai.miccai2019@gmail.com'
+          git commit -sam "[MONAI] code formatting"
+          git diff @~1
+        shell: bash
+
+      - name: submit
+        if: steps.black.outputs.format == 'true'
+        run: |
+          cd src_dir/
+         # git checkout -b auto-update; git push --set-upstream origin auto-update
+        env:
+          token: ${{ secrets.PR_MAINTAIN }}
+          GITHUB_TOKEN: ${{ secrets.PR_MAINTAIN }}
+     # shell: bash
+     #     # gh pr create --fill --title "auto updates" --base dev --head "auto-update"
