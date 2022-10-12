@@ -1,10 +1,11 @@
 name: update codebase
 on:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
+  schedule:
+    - cron: "0 6 * * 1"  # 06:00 of every Monday
   workflow_dispatch:
-
 
 jobs:
   dev_updates:
@@ -72,7 +73,7 @@ jobs:
           echo ::set-output name=format::$changes
         shell: bash
 
-      - name: git commit
+      - name: Git commit
         if: steps.black.outputs.format == 'true'
         run: |
           cd src_dir/
@@ -84,7 +85,7 @@ jobs:
           git push -f --set-upstream origin auto-update
         shell: bash
 
-      - name: submit
+      - name: Submit PR
         if: steps.black.outputs.format == 'true'
         run: |
           cd src_dir/
