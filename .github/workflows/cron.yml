@@ -43,7 +43,7 @@ jobs:
           sudo apt-get -y install dos2unix
           python -m pip install --upgrade pip wheel
           python -m pip install -r src_dir/requirements-dev.txt
-          python -m pip install autopep8
+          python -m pip install autopep8 yapf
           python scripts/remove_type_ignore.py src_dir/setup.cfg src_dir/
 
       - name: Make changes
@@ -59,11 +59,12 @@ jobs:
 
           autopep8 --recursive --in-place --aggressive --aggressive .
           isort .
+          yapf --in-place --recursive --parallel --exclude "monai/_version.py" --exclude "versioneer.py" --style='{COLUMN_LIMIT=130}' .
           black --skip-magic-trailing-comma .
 
           script_file=runtests.sh
           if [[ -f $script_file ]]; then
-            ./runtests.sh --clangformat
+            ./runtests.sh --precommit --autofix --mypy --flake8 --clangformat
           fi
 
           changes=
