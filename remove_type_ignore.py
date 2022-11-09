@@ -37,7 +37,7 @@ def run(cfg, codebase):
         file.seek(0)  # rewind file pointer back to start of file
 
         for line_idx in lines_nums:
-            text[line_idx - 1] = IGNORE_RE.sub("\n", text[line_idx - 1])
+            text[line_idx - 1] = IGNORE_RE.sub("", text[line_idx - 1])
         file.writelines(text)
         file.truncate()
         file.close()
