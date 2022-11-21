@@ -35,7 +35,7 @@ jobs:
 
       - name: Install isort black autopep8
         run: |
-          sudo apt-get -y install dos2unix
+          sudo apt-get -y install dos2unix libtinfo5
           pip install isort black autopep8 torch numpy
 
       # Execute autopep8 and black

@@ -40,7 +40,7 @@ jobs:
 
       - name: Install tools
         run: |
-          sudo apt-get -y install dos2unix
+          sudo apt-get -y install dos2unix libtinfo5
           python -m pip install --upgrade pip wheel
           python -m pip install -r src_dir/requirements-dev.txt
           python -m pip install autopep8 yapf
