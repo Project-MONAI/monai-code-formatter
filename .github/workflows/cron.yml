@@ -57,7 +57,7 @@ jobs:
           cd src_dir/
           find . -type f -not -path "./.git/*" -print0 | xargs -0 -n 1 -P 2 dos2unix  # remove return
 
-          autopep8 --recursive --in-place --aggressive --aggressive .
+          autopep8 --recursive --in-place --aggressive --aggressive --ignore E721 .
           isort .
           yapf --in-place --recursive --parallel --exclude "monai/_version.py" --exclude "versioneer.py" --style='{COLUMN_LIMIT=130}' .
           black --skip-magic-trailing-comma .

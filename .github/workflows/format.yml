@@ -49,7 +49,7 @@ jobs:
 
           find . -type f -not -path "./.git/*" -print0 | xargs -0 -n 1 -P 2 dos2unix  # remove return
 
-          autopep8 --recursive --in-place --aggressive --aggressive .
+          autopep8 --recursive --in-place --aggressive --aggressive --ignore E721 .
           isort .
           black --skip-magic-trailing-comma .
           repo_name=${{ github.event.client_payload.pull_request.head.repo.full_name }}
