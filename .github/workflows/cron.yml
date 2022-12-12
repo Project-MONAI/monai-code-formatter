@@ -62,6 +62,11 @@ jobs:
           yapf --in-place --recursive --parallel --exclude "monai/_version.py" --exclude "versioneer.py" --style='{COLUMN_LIMIT=130}' .
           black --skip-magic-trailing-comma .
 
+          git config --global user.name 'monai-bot'
+          git config --global user.email 'monai.miccai2019@gmail.com'
+          git add .
+          git diff --cached | cat
+
           script_file=runtests.sh
           if [[ -f $script_file ]]; then
             ./runtests.sh --precommit --autofix --mypy --flake8 --clangformat
@@ -78,8 +83,6 @@ jobs:
         if: steps.black.outputs.format == 'true'
         run: |
           cd src_dir/
-          git config --global user.name 'monai-bot'
-          git config --global user.email 'monai.miccai2019@gmail.com'
           git commit -sam "[MONAI] code formatting"
           git diff @~1
           git checkout -b auto-update
