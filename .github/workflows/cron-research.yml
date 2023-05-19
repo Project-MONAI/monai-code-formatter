@@ -1,0 +1,83 @@
+name: update research codebase
+on:
+  # push:
+  #   branches:
+  #     - master
+  schedule:
+    - cron: "0 6 * * 1"  # 06:00 of every Monday
+  workflow_dispatch:
+
+jobs:
+  dev_updates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PR_MAINTAIN }}
+          repository: Project-MONAI/research-contribution
+          ref: main
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+
+      - name: Cache weekly timestamp
+        id: pip-cache
+        run: echo "datew=$(date '+%Y-%V')" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Cache for pip
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ steps.pip-cache.outputs.datew }}
+
+      - name: Install tools
+        run: |
+          sudo apt-get -y install dos2unix libtinfo5
+          python -m pip install --upgrade pip wheel
+          pip install isort black autopep8 torch numpy
+
+      - name: Make changes
+        id: black
+        run: |
+          dos2unix --version
+          autopep8 --version
+          isort --version
+          black --version
+
+          find . -type f -not -path "./.git/*" -print0 | xargs -0 -n 1 -P 2 dos2unix  # remove return
+
+          autopep8 --recursive --in-place --aggressive --aggressive --ignore E721 --max-line-length 200 .
+          isort .
+          black --skip-magic-trailing-comma .
+
+          git config --global user.name 'monai-bot'
+          git config --global user.email 'monai.miccai2019@gmail.com'
+          git add .
+          git diff --cached | cat
+
+          changes=
+          if [ -n "$(git status --porcelain)" ]; then
+            changes="true"
+          fi
+          echo "format=$changes" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Git commit
+        if: steps.black.outputs.format == 'true'
+        run: |
+          git commit -sam "[MONAI] code formatting"
+          git diff @~1
+          git checkout -b auto-update
+          git push -f --set-upstream origin auto-update
+        shell: bash
+
+      - name: Submit PR
+        if: steps.black.outputs.format == 'true'
+        run: |
+          gh pr create --fill --title "auto updates" --base main --head "auto-update"
+        env:
+          token: ${{ secrets.PR_MAINTAIN }}
+          GITHUB_TOKEN: ${{ secrets.PR_MAINTAIN }}
