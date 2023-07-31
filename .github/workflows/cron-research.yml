@@ -35,6 +35,7 @@ jobs:
           sudo apt-get -y install dos2unix libtinfo5
           python -m pip install --upgrade pip wheel
           pip install isort black autopep8 torch numpy
+          pip install pycodestyle!=2.11.0
 
       - name: Make changes
         id: black
