@@ -1,0 +1,11 @@
+url_path,views_total,views_unique
+/Project-MONAI/tutorials,2284,1314
+/Project-MONAI/tutorials/tree/main/3d_segmentation,1825,460
+/Project-MONAI/tutorials/blob/main/3d_segmentation/unetr_btcv_segmentation_3d.ipynb,1319,309
+/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb,1213,339
+/Project-MONAI/tutorials/blob/main/3d_segmentation/spleen_segmentation_3d.ipynb,1016,245
+/Project-MONAI/tutorials/tree/main/2d_segmentation/torch,1001,257
+/Project-MONAI/tutorials/blob/main/3d_segmentation/swin_unetr_brats21_segmentation_3d.ipynb,861,219
+/Project-MONAI/tutorials/tree/main/detection,855,98
+/Project-MONAI/tutorials/blob/main/3d_segmentation/swin_unetr_btcv_segmentation_3d.ipynb,840,229
+/Project-MONAI/tutorials/blob/main/2d_classification/mednist_tutorial.ipynb,823,238
