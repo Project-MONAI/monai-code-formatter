@@ -1,0 +1,11 @@
+url_path,views_total,views_unique
+/Project-MONAI/MONAI,2026,1299
+/project-monai/monai,1087,819
+/Project-MONAI/MONAI/tree/dev/monai,454,307
+/Project-MONAI/MONAI/issues,269,99
+/Project-MONAI/MONAI/pulls,264,60
+/Project-MONAI/MONAI/tree/dev/monai/networks,165,102
+/Project-MONAI/MONAI/tree/dev/monai/networks/nets,156,101
+/Project-MONAI/MONAI/tree/dev,108,81
+/Project-MONAI/MONAI/blob/dev/monai/networks/nets/swin_unetr.py,83,55
+/Project-MONAI/MONAI/blob/dev/requirements.txt,59,37
