@@ -1,0 +1,11 @@
+url_path,views_total,views_unique
+/Project-MONAI/tutorials,762,544
+/Project-MONAI/tutorials/tree/main/3d_segmentation,161,118
+/Project-MONAI/tutorials/blob/main/3d_segmentation/swin_unetr_brats21_segmentation_3d.ipynb,152,88
+/Project-MONAI/tutorials/blob/main/3d_segmentation/brats_segmentation_3d.ipynb,124,71
+/Project-MONAI/tutorials/tree/main,116,76
+/Project-MONAI/tutorials/blob/main/3d_segmentation/swin_unetr_btcv_segmentation_3d.ipynb,116,70
+/Project-MONAI/tutorials/blob/main/auto3dseg/README.md,103,64
+/Project-MONAI/tutorials/blob/main/2d_classification/mednist_tutorial.ipynb,101,65
+/Project-MONAI/tutorials/blob/main/monailabel/monailabel_monaibundle_3dslicer_lung_nodule_detection.ipynb,98,36
+/Project-MONAI/tutorials/tree/main/generation/maisi,89,61
